@@ -61,7 +61,7 @@ def create():
             'status': 'success',
             'message': 'Successfully created a user and signed in.',
             'auth_token': auth_token.decode(),
-            'user': {"id": int(new_user.id), "username": new_user.username, "password": new_user.password}
+            'user': {"id": int(new_user.id), "username": new_user.username}
          }
 
          return make_response(jsonify(responseObject)), 201
