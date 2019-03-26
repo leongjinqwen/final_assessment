@@ -14,6 +14,9 @@ if os.getenv('FLASK_ENV') == 'production':
 else:
     app.config.from_object("config.DevelopmentConfig")
 
+@app.route('/')
+def index():
+    return "Homepage"
 
 @app.before_request
 def before_request():
