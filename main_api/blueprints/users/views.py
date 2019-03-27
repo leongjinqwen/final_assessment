@@ -21,7 +21,27 @@ def index():
       }
       result.append(each)
    return jsonify(result)
-   
+
+@users_api_blueprint.route('/me', methods=['GET'])
+def currentuser():
+   auth_header = request.headers.get('Authorization')
+   if auth_header:
+      auth_token = auth_header.split(" ")[1]
+      user_id = User.decode_auth_token(auth_token)
+      user = User.select().where(User.id==user_id)
+      responseObject = {
+         'id': user[0].id,
+         'username': user[0].username,
+         'email': user[0].email         
+      }
+      return make_response(jsonify(responseObject)),201
+   else:
+      responseObject = {
+         'status': 'failed',
+         'message': 'No authorization header found.'
+      }
+      return make_response(jsonify(responseObject)), 401
+
 @users_api_blueprint.route('/new', methods=['POST'])
 def create():
    # get the post data
